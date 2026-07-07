@@ -55,8 +55,8 @@ online the queue flushes. State and queue survive a page reload.
    reconnect; a header chip shows how many are queued.
 5. **Local persistence** — orders and the queue are stored in `shared_preferences` (survive reload).
 6. **Web build + Pages deploy** — the release web build ships to GitHub Pages via Actions.
-7. **Widget tests + CI** — `flutter analyze` + widget tests (render, offline-queue, online-flush)
-   run in CI, which also builds the web release.
+7. **Widget tests + CI** — `flutter analyze` + two widget tests (one for render, one covering the
+   offline-queue and online-flush) run in CI, which also builds the web release.
 
 ## Limitations
 
