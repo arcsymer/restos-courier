@@ -1,17 +1,9 @@
 # syntax=docker/dockerfile:1
-# Optional, heavier build (Flutter web toolchain). Enabled via `docker compose --profile courier`.
-
-# --- build: compile the Flutter web bundle ---
-FROM ghcr.io/cirruslabs/flutter:stable AS build
-WORKDIR /app
-COPY pubspec.yaml pubspec.lock ./
-RUN flutter pub get
-COPY . .
-RUN flutter build web --release
-
-# --- runtime: tiny nginx serving the static bundle ---
+# Serves the pre-built Flutter web bundle (build/web) via a tiny nginx — per CC_LIVE_STACK §2
+# ("serve their built output ... don't over-build"). Build the bundle first with
+# `flutter build web --release` (build/ is gitignored). Enabled via `docker compose --profile courier`.
 FROM nginx:1.27-alpine AS runtime
-COPY --from=build /app/build/web /usr/share/nginx/html
+COPY build/web /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 HEALTHCHECK --interval=15s --timeout=5s --retries=6 \
