@@ -1,0 +1,11 @@
+build
+.dart_tool
+.git
+.github
+.idea
+test
+docs
+*.md
+*.iml
+Dockerfile
+.dockerignore
